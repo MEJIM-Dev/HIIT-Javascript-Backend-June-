@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100vw;
+    height: 70vh;
+    margin-top: 5rem;
+}
+
+input {
+    width: 16rem;
+    height: 2.5rem;
+    padding-left: 2rem;
+    border-radius: 7px;
+    border-width: thin;
+}
+
+
+
+button {
+    width: 7rem;
+    height: 3rem;
+    border-radius: 7px;
+    border-width: thin;
+    cursor: pointer;
+}
+
+.valid {
+    color: green;
+    display: none;
+}
+
+.invalid {
+    color: red;
+    display: none;
+}
+
+.str {
+    display: none;
+}
+
+.lessThanIdeal {
+    display: block;
+    color: orange;
+}
+
+.weak{
+    display: block;
+    color: yellow;
+}
+
+.good{
+    display:block;
+    color:green;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form val</title>
+    <link rel="stylesheet" href="./form.css">
+</head>
+<body>
+    <form id="parent" action="https://www.google.com">
+       <label for="first-name" >
+           <input type="text" placeholder="first name" id="first">
+           <p id="firstValid" class="valid">valid</p>
+           <p id="firstError" class="invalid">invalid</p>
+       </label>
+       <label for="surname">
+           <input type="text" placeholder="surname" id="surname">
+           <p id="lastValid" class="valid">valid</p> 
+           <p id="lastError" class="invalid">invalid</p>
+       </label>
+       <label for="ccode">
+            Country code
+            <select name="ccode" id="drop-down" class="drop-down">
+            </select>
+       </label>
+       
+       <label for="dial">
+           <input type="tel" placeholder="telephone number" id="dial">
+           <p id="numValid" class="valid">valid</p>
+           <p id="numError" class="invalid">invalid</p>
+       </label>
+       <label for="email">
+           <input type="email" placeholder="email" id="email">
+           <p id="emailValid" class="valid">valid</p>
+           <p id="emailError" class="invalid">invalid</p>
+       </label>
+       <label for="password">
+           <input type="password" placeholder="password" id="password">
+           <p id="str" class="str" ></p>
+           <p id="passValid" class="valid">valid</p>
+           <p id="passError" class="invalid">invalid</p>
+       </label>
+       <label for="confirm-password">
+           <input type="password" placeholder="confirm password" id="confirm">
+           <p id="conValid" class="valid">valid</p>
+           <p id="conPassError" class="invalid">invalid</p>
+       </label>
+       
+       <button id="btn-sub" type="submit">Submit</button>
+    </form>
+
+    <script src="./form.js"></script>
+</body>
+</html>
