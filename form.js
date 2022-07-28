@@ -37,9 +37,11 @@ function validateName(element, valid, error){
     return false
 }
 
-countrycodes.forEach(function(data, index){
-    dropDown.innerHTML+=`<option id=${index} value=${data} > ${data}</option>`
-})
+
+    countrycodes.forEach(function(data, index){
+        dropDown.innerHTML+=`<option id=${index} value=${data} > ${data}</option>`
+    })
+
 
 function validateNumber(element, valid, error){
     const userinput = element.value
@@ -165,6 +167,7 @@ submitBtn.addEventListener("click",(e)=>{
     if(!countrycodes.includes(dropDown.value) ){
         return alert("Not a valid country code")
     }
+
     if(!validateName(firstname,firstVal,firstErr)) {
         return alert("Invalid firstname")
     } 
@@ -188,30 +191,37 @@ submitBtn.addEventListener("click",(e)=>{
     }
 
     alert("form will be submited now")
-    // fetch("localho")
+
+    form.submit()
+
+    // fetch("")
+    // let name = firstname.value.toLowerCase()
+    
+       fetch("http://localhost:8080/login-page", {
+        method: "POST",
+        data: {
+            "name": firstname.value.toLowerCase(),
+            "password": password.value,
+            "tel": tel.value,
+            "email": email.value,
+    
+        }
+    }).then(res=>{
+        if(res.text()=="successful"){
+            return window.location.href="/dashboard"
+        }
+        else if(res.text()=="invalid"){
+            alert("wrong password")
+        }
+        alert("Invalid credentials")
+    }).catch(e=>{
+        console.log("request failed")
+    })
 
     //submit statement here
     //names to lowercase
     //add the country code to the number dropdown.value + tel.value
-
-    // form.submit()
-
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
 // const header = `<div>
 //     <div class="logo"> Logo  </div>
