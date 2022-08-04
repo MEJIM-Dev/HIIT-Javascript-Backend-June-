@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="./form.css">
 </head>
 <body>
-    <form id="parent" action="https://www.google.com">
+    <form id="parent" method="post">
        <label for="first-name" >
-           <input type="text" placeholder="first name" id="first">
+           <input type="text" name="name" placeholder="first name" id="first">
            <p id="firstValid" class="valid">valid</p>
            <p id="firstError" class="invalid">invalid</p>
        </label>
@@ -21,7 +21,7 @@
        </label>
        <label for="ccode">
             Country code
-            <select name="ccode" id="drop-down" class="drop-down">
+            <select name="ccode" name="age" id="drop-down" class="drop-down">
             </select>
        </label>
        <div class="kjhx">
@@ -39,7 +39,7 @@
            <p id="emailError" class="invalid">invalid</p>
        </label>
        <label for="password">
-           <input type="password" placeholder="password" id="password">
+           <input type="password" name="password" placeholder="password" id="password">
            <p id="str" class="str" ></p>
            <p id="passValid" class="valid">valid</p>
            <p id="passError" class="invalid">invalid</p>
@@ -53,7 +53,7 @@
        <button id="btn-sub" type="submit">Submit</button>
     </form>
 
-    <script src="./form.js"></script>
+     <script src="./form.js"></script>
     <!-- <script src="./ErrorHandling.js"></script> -->
 </body>
 </html>

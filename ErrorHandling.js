@@ -4,6 +4,8 @@
 //         return dot/divisor;
 // }
 
+// const { json } = require("stream/consumers")
+
 // function be () {
 //     const dot = "."
 //     const divisor = 234;
@@ -28,6 +30,7 @@
 // args.then(be())
 // const val ="sadfgh"
 
-console.log(Math.random()*val)//*val  //*"hgf"
+// console.log(Math.random()*val)//*val  //*"hgf"
 
-console.log("Next line after possible exceptoion")
+// console.log("Next line after possible exceptoion")
+    //    https://jsonplaceholder.typicode.com/posts

@@ -159,69 +159,73 @@ tel.addEventListener("keyup", (e)=>{
     validateNumber(tel, telVal, telErr)
 })
 
-submitBtn.addEventListener("click",(e)=>{
-    e.preventDefault()
+// submitBtn.addEventListener("click",(e)=>{
+//     e.preventDefault()
 
-    console.log(dropDown.value)
+//     console.log(dropDown.value)
 
-    if(!countrycodes.includes(dropDown.value) ){
-        return alert("Not a valid country code")
-    }
+//     if(!countrycodes.includes(dropDown.value) ){
+//         return alert("Not a valid country code")
+//     }
 
-    if(!validateName(firstname,firstVal,firstErr)) {
-        return alert("Invalid firstname")
-    } 
-    if(!validateName(surname,lastVal,lastErr)) {
-        return alert("Invalid lastname")
-    }
-    if (!validateNumber(tel,telVal,telErr)){
-        return alert("Invalid Phone number")
-    }
-    if(!emailValidator(email,emailVal,emailErr)) {
-        return alert("Invalid Email address")
-    }
-    if (!passwordValidator(password,passVal,passErr)){
-        return alert("Invalid password entered")
-    }
-    if(!passwordValidator(confirmPassword,conPassVal,conPassErr)){
-        return alert("Invalid Confirm password field")
-    }
-    if(password.value!=confirmPassword.value){
-        return alert("Password doesn't match confirm password")
-    }
+//     if(!validateName(firstname,firstVal,firstErr)) {
+//         return alert("Invalid firstname")
+//     } 
+//     if(!validateName(surname,lastVal,lastErr)) {
+//         return alert("Invalid lastname")
+//     }
+//     if (!validateNumber(tel,telVal,telErr)){
+//         return alert("Invalid Phone number")
+//     }
+//     if(!emailValidator(email,emailVal,emailErr)) {
+//         return alert("Invalid Email address")
+//     }
+//     if (!passwordValidator(password,passVal,passErr)){
+//         return alert("Invalid password entered")
+//     }
+//     if(!passwordValidator(confirmPassword,conPassVal,conPassErr)){
+//         return alert("Invalid Confirm password field")
+//     }
+//     if(password.value!=confirmPassword.value){
+//         return alert("Password doesn't match confirm password")
+//     }
 
-    alert("form will be submited now")
+//     alert("form will be submited now")
 
-    form.submit()
+//     form.submit()
 
-    // fetch("")
-    // let name = firstname.value.toLowerCase()
+//     // fetch("")
+//     // let name = firstname.value.toLowerCase()
     
-       fetch("http://localhost:8080/login-page", {
-        method: "POST",
-        data: {
-            "name": firstname.value.toLowerCase(),
-            "password": password.value,
-            "tel": tel.value,
-            "email": email.value,
-    
-        }
-    }).then(res=>{
-        if(res.text()=="successful"){
-            return window.location.href="/dashboard"
-        }
-        else if(res.text()=="invalid"){
-            alert("wrong password")
-        }
-        alert("Invalid credentials")
-    }).catch(e=>{
-        console.log("request failed")
-    })
+//     //    fetch("http://localhost:8080/register", {
+//     //     method: "POST",
+//     //     body: JSON.stringify({
+//     //         "name": firstname.value,
+//     //         "password": password.value,
+//     //         "tel": tel.value,
+//     //         "email": email.value,
+//     //         "age": dropDown.value
+//     //     }),
+//     //     headers: {
+//     //         'Content-type': 'application/json; charset=UTF-8'
+//     //     }
+//     // }).then(res=>{
+//     //     if(res.status==200){
+//     //         alert("user created successfully")
+//     //         // return window.location.href="/dashboard"
+//     //     }
+//     //     else if(res.status==400){
+//     //         alert("Bad request")
+//     //     }
+//     //     // alert("Invalid credentials")
+//     // }).catch(e=>{
+//     //     console.log("request failed")
+//     // })
 
-    //submit statement here
-    //names to lowercase
-    //add the country code to the number dropdown.value + tel.value
-})
+//     //submit statement here
+//     //names to lowercase
+//     //add the country code to the number dropdown.value + tel.value
+// })
   
 // const header = `<div>
 //     <div class="logo"> Logo  </div>

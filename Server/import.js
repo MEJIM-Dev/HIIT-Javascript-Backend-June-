@@ -1,4 +1,4 @@
-const exportVar = "ertyukjljhgfdsjhgrfdsadfhjgfdsfghjkljhgfdsfghjkhgfdsfghjkhgfdsfghjkhgfdghjkhgfdghjkhgfdghjkhg"
+const exportVar = "rubbish"
 const mYfunction = () => {
     console.log("imported function")
 }
@@ -11,8 +11,14 @@ function hjkl() {
 
 }
 
+const obj = {
+    name: "name",
+    data: "daxdfghjhgfdta"
+}
+
 module.exports = {
     exportVar: exportVar,
     mYfunction: mYfunction,
-    dfghjkl: dfghjkl
+    dfghjkl: dfghjkl,
+    obj: obj
 };
