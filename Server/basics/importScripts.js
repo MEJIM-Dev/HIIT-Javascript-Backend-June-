@@ -1,3 +1,25 @@
+const otherScript = require("./import")
+console.log(otherScript.mYfunction())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const {myFunction, obj} = require("./import")
 // const personalModule = require("./import")
 // const fs = require("fs")
@@ -11,29 +33,29 @@
 //     } 
 // })
 
-function skipOddNumbers(arg){
-    let answer = []
+// function skipOddNumbers(arg){
+//     let answer = []
 
-    arg.forEach((data,index)=>{
-        if(index%2!==0){
+//     arg.forEach((data,index)=>{
+//         if(index%2!==0){
 
-        } else{
-            answer.push(data)
-        } 
-    })
-    // for (let i = 0; i < arg.length; i++) {
-    //     const element = arg[i];
-    //     if(i%2!==0){
+//         } else{
+//             answer.push(data)
+//         } 
+//     })
+//     // for (let i = 0; i < arg.length; i++) {
+//     //     const element = arg[i];
+//     //     if(i%2!==0){
 
-    //     } else{
-    //         answer.push(element)
-    //     }        
-    // }
-    console.log(answer)
-    return answer
-}
+//     //     } else{
+//     //         answer.push(element)
+//     //     }        
+//     // }
+//     console.log(answer)
+//     return answer
+// }
 
-const tim = skipOddNumbers(["ab","ac","ad","sc", "hgthui"])
+// const tim = skipOddNumbers(["ab","ac","ad","sc", "hgthui"])
 // console.log(tim)
 // const fs = require("fs")
 

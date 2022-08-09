@@ -1,51 +1,85 @@
+// const http = require("http")
+// // const { give } = require("./basics/import")
+
+// http.createServer(function(request,response){
+//     console.log(request.url)
+//     if(request.url=="/givememoneyt" ){
+//         return response.end("no")
+//     } else if(request.url=="/home" || request.url=="/" || request.url=="/homepage" || request.url=="/index"){
+//         return response.end("welcome home")
+//     } 
+//     response.end("404 ")
+// }).listen(5678)
+
 const express = require("express")
-const fs = require("fs")
-const path = require("path")
 
 const app = express()
 
-app.listen(5000)
+app.listen(5677)
 
-const users = ["sam","ken","sarah"]
-
-const public = path.join(__dirname,"public")
-//Setting up exposed/public directory for access from clients
-app.use(express.static(public))
-
-app.get("/", (req,res)=>{
-    console.log(req.url)
-    const page = fs.readFileSync("./public/index.html",{encoding:"utf-8"})
-    res.send("index")
+app.get(["/","/home","/index","/homepage"], function(req,res){
+    res.end("home")
 })
 
-app.get("/about", (req,res)=>{
-    console.log(req.url)
-    const page = fs.readFileSync("./public/about.html",{encoding:"utf-8"})
-    res.sendFile(path.join(__dirname,"public","about.html"))
+//query params
+app.get("/givememoneyt", function(req,res){
+    console.log(req.query)
+    res.end("no")
 })
 
-app.get("/contact",(req,res)=>{
-    console.log(req.url)
-    res.send("welcome to the contact page")
+//path/route Params
+app.get("/givememoneyt/fghjhgfgh", function(req,res){
+    console.log(req.params)
+    res.end("no")
 })
+// const express = require("express")
+// const fs = require("fs")
+// const path = require("path")
 
-app.post("/register",(req,res)=>{
-    const possibleUser = req.query.username
+// const app = express()
+
+// app.listen(5000)
+
+// const users = ["sam","ken","sarah"]
+
+// const public = path.join(__dirname,"public")
+// //Setting up exposed/public directory for access from clients
+// app.use(express.static(public))
+
+// app.get("/", (req,res)=>{
+//     console.log(req.url)
+//     const page = fs.readFileSync("./public/index.html",{encoding:"utf-8"})
+//     res.send("index")
+// })
+
+// app.get("/about", (req,res)=>{
+//     console.log(req.url)
+//     const page = fs.readFileSync("./public/about.html",{encoding:"utf-8"})
+//     res.sendFile(path.join(__dirname,"public","about.html"))
+// })
+
+// app.get("/contact",(req,res)=>{
+//     console.log(req.url)
+//     res.send("welcome to the contact page")
+// })
+
+// app.post("/register",(req,res)=>{
+//     const possibleUser = req.query.username
     
-    console.log(req.url)
+//     console.log(req.url)
 
-    if(users.includes(possibleUser)){
-        return res.end("User already exist")
-    } else{
-        users.push(possibleUser)
-        return res.send("user is been registered")
-    }
+//     if(users.includes(possibleUser)){
+//         return res.end("User already exist")
+//     } else{
+//         users.push(possibleUser)
+//         return res.send("user is been registered")
+//     }
     
-})
+// })
 
-app.get("/*", (req,res)=>{
-    res.status(404).send("Resource not found")
-})
+// app.get("/*", (req,res)=>{
+//     res.status(404).send("Resource not found")
+// })
 
 
 
