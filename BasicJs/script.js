@@ -1,61 +1,137 @@
-class Students {
+const myArr = [5,2,3,46,7,4]
+// const ard = [5,6,9,13,0,-1,89,8]
 
-    constructor(name,contact,course) {
-            this.name = name,
-            this.contact = contact,
-            this.course = course
+function returnPosSum(aray,total){
+    let twoSums = []
+    for (let i = 0; i < aray.length; i++) {
+        const element = aray[i];
+        if(twoSums.length!=0){
+            break;
+        }
+        for (let j = i+1; j < aray.length; j++) {
+            const ele = aray[j];
+            console.log("sum",element+ele)
+            if(element+ele==total){
+                console.log("condition met")
+                twoSums.push(element)
+                twoSums.push(ele)
+                break
+            }
+        }      
     }
-
-    sayHello(){
-        console.log("Hello from", this.name)
-    }
-
+     twoSums.length==2 ? console.log(twoSums) : console.log(-1)   
 }
 
-class Person{
-    constructor(name,gender,age) {
-        this.name = name,
-        this.age = age
-        this.gender = gender
-    }  
+returnPosSum([2,6,3,4,10],10)
+
+// function returnPosSum(aray,total){
+//     total=4
+//     if(){//two index = total){
+//         //console.log(number, number2)
+//     } else{
+//        // console.log(0)
+//     }
+// }
+// function ac(){
+// let breakPoint=-1;
+
+// for (let i = 0; i < myArr.length; i++) {
+//     const element = myArr[i];
+//     if(element=="46"){
+//         breakPoint=i;
+//         console.log("breaking the loop")
+//         break;
+//     }
+// }
+
+
+// for (let i = 0; i < myArr.length; i++) {
+//     const element = myArr[i];
+//         console.log("main",element)
+//     for (let j = 0; j < myArr.length; j++) {
+//         const ele = myArr[j];
+//         console.log("pos",ele)
+//     }
     
-    eat(){
-        console.log("I am eating")
-    }
+// }
+
+// for (let i = 0; i < myArr.length; i++) {
+//     const element = myArr[i];
+//     console.log("running");
+//     for (let j = 0; j < 3; j++) {
+//         const element = myArr[j];
+//         console.log("inner loop")
+//     }
+// }
+
+console.log("done")
+ 
+// console.log(breakPoint)
+// }
+
+// ac()
+
+function abc(){
+
 }
+// class Students {
 
-class FacebookUser extends Person {
-    constructor(name,gender,age,phone,email,password) {
-        super(name,gender,age)
-        this.password = password
-        this.phone = phone
-        this.email = email
-    } 
+//     constructor(name,contact,course) {
+//             this.name = name,
+//             this.contact = contact,
+//             this.course = course
+//     }
 
-    login(){
-        console.log("User is now logged in")
-    }
-}
+//     sayHello(){
+//         console.log("Hello from", this.name)
+//     }
 
-let sandy = new Person("sandy","female",29)
-let user101 = new FacebookUser("Bolu","male",12,09865443692,"Bolu@gmail.com","12345678")
-// user101.login()
+// }
 
-user101.name
+// class Person{
+//     constructor(name,gender,age) {
+//         this.name = name,
+//         this.age = age
+//         this.gender = gender
+//     }  
+    
+//     eat(){
+//         console.log("I am eating")
+//     }
+// }
 
-//+=
-let info = 1;
-// info = 2
-info += 3;// info = former + right hand side = 2+2
-info/= 2 // 2/5
-info-= 5  //2-5
+// class FacebookUser extends Person {
+//     constructor(name,gender,age,phone,email,password) {
+//         super(name,gender,age)
+//         this.password = password
+//         this.phone = phone
+//         this.email = email
+//     } 
+
+//     login(){
+//         console.log("User is now logged in")
+//     }
+// }
+
+// let sandy = new Person("sandy","female",29)
+// let user101 = new FacebookUser("Bolu","male",12,09865443692,"Bolu@gmail.com","12345678")
+// // user101.login()
+
+// user101.name
+
+// //+=
+// let info = 1;
+// // info = 2
+// info += 3;// info = former + right hand side = 2+2
+// info/= 2 // 2/5
+// info-= 5  //2-5
 // %= 
 // *=
 // 1=="1"
 // a++
 // a--
 // 1==="1"
-console.log(info)
+// console.log(info)
 
 
 // class User extends Students {
@@ -74,20 +150,20 @@ console.log(info)
 // let colu = new User("Bolu","09865443692","Node","Bolu@gmail.com","12345678")
 // colu.login("122e3s")
 
-let moses = new Students("Moses","08023456789","PHP")
-moses.sayHello()
-let sarah = new Students("Sarah","08023456789","PHP")
-console.log(moses.name)
-let sam = {
-    name: "Sanin",
-    contact: "08023456789",
-    course: "Node Backend",
-    username: "fghghjh",
-    sayHello() {
-        console.log("Hello from ",this.name)
-    }
+// let moses = new Students("Moses","08023456789","PHP")
+// moses.sayHello()
+// let sarah = new Students("Sarah","08023456789","PHP")
+// console.log(moses.name)
+// let sam = {
+//     name: "Sanin",
+//     contact: "08023456789",
+//     course: "Node Backend",
+//     username: "fghghjh",
+//     sayHello() {
+//         console.log("Hello from ",this.name)
+//     }
 
-}
+// }
 
 let dan = {
     name: "Sanin",

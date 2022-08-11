@@ -15,9 +15,15 @@ const express = require("express")
 
 const app = express()
 
-app.listen(5677)
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 
-app.get(["/","/home","/index","/homepage"], function(req,res){
+app.listen(5677)
+//Middleware
+const midman = function(req,res,next){console.log("midman");next()}
+
+app.get(["/","/home","/index","/homepage"], midman ,function(req,res){
+    console.log("return")
     res.end("home")
 })
 
@@ -27,11 +33,22 @@ app.get("/givememoneyt", function(req,res){
     res.end("no")
 })
 
+app.post("/postdata", (req,res)=>{
+    console.log(req.body)
+    if(req.body.name!="david"){
+        return res.end("not the owner")
+    }else{
+        res.end("login")
+    }
+    
+} )
+
 //path/route Params
-app.get("/givememoneyt/fghjhgfgh", function(req,res){
+app.get("/givememoneyt/:bgfc", function(req,res){
     console.log(req.params)
     res.end("no")
 })
+
 // const express = require("express")
 // const fs = require("fs")
 // const path = require("path")
