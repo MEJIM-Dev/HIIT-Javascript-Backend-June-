@@ -1,29 +1,3 @@
-const myArr = [5,2,3,46,7,4]
-// const ard = [5,6,9,13,0,-1,89,8]
-
-function returnPosSum(aray,total){
-    let twoSums = []
-    for (let i = 0; i < aray.length; i++) {
-        const element = aray[i];
-        if(twoSums.length!=0){
-            break;
-        }
-        for (let j = i+1; j < aray.length; j++) {
-            const ele = aray[j];
-            console.log("sum",element+ele)
-            if(element+ele==total){
-                console.log("condition met")
-                twoSums.push(element)
-                twoSums.push(ele)
-                break
-            }
-        }      
-    }
-     twoSums.length==2 ? console.log(twoSums) : console.log(-1)   
-}
-
-returnPosSum([2,6,3,4,10],10)
-
 // function returnPosSum(aray,total){
 //     total=4
 //     if(){//two index = total){

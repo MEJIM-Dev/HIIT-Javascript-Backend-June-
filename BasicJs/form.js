@@ -190,14 +190,14 @@ submitBtn.addEventListener("click",(e)=>{
     //     return alert("Password doesn't match confirm password")
     // }
 
-    alert("form will be submited now")
+    // alert("form will be submited now")
 
     // form.submit()
 
     // fetch("")
     // let name = firstname.value.toLowerCase()
     
-       fetch("http://localhost:5000/api/register", {
+       fetch("http://localhost:5677/saveuser", {
         method: "POST",
         body: JSON.stringify({
             "name": firstname.value,

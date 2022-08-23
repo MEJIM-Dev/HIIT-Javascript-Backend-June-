@@ -1,26 +1,67 @@
-// const http = require("http")
-// // const { give } = require("./basics/import")
-
-// http.createServer(function(request,response){
-//     console.log(request.url)
-//     if(request.url=="/givememoneyt" ){
-//         return response.end("no")
-//     } else if(request.url=="/home" || request.url=="/" || request.url=="/homepage" || request.url=="/index"){
-//         return response.end("welcome home")
-//     } 
-//     response.end("404 ")
-// }).listen(5678)
-
 const express = require("express")
+const mongoose = require("mongoose")
+const cors = require("cors")
 
 const app = express()
 
+const uri = "mongodb://localhost:27017/JuneDb"
+
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cors())
+mongoose.connect(uri,(err=>{
+    if(err) {
+        return console.log(err)
+    }
+    console.log("connected")
+}))
+
 
 app.listen(5677)
+
 //Middleware
-const midman = function(req,res,next){console.log("midman");next()}
+const midman = function(req,res,next){
+    console.log("midman");
+    next()
+}
+
+const userSchema = new mongoose.Schema({
+    name: {type: String, required:true},
+    password: String
+})
+
+const User = mongoose.model("Users", userSchema)
+
+app.post("/saveuser",(req, res)=>{
+    console.log(req.body)
+    // const dbuser = new User({
+    //             name: req.body.name,
+    //             password: req.body.password
+    //         })
+
+    // dbuser.save()
+    User.create(
+        {
+            name: req.body.name,
+            password: req.body.password
+        }
+    )
+    .then((data)=>{
+        console.log(data)
+        res.send(data)
+    })
+    .catch((e)=>{
+        console.log(e)
+        res.status(400).send("Failed")
+    })
+    
+})
+// app.get("/findusers",(req,res)=>{
+//     User.find((err,data)=>{
+//         if(e)
+//     })
+//     res.send();
+// })
 
 app.get(["/","/home","/index","/homepage"], midman ,function(req,res){
     console.log("return")
@@ -29,6 +70,11 @@ app.get(["/","/home","/index","/homepage"], midman ,function(req,res){
 
 //query params
 app.get("/givememoneyt", function(req,res){
+    console.log(req.query)
+    res.end("no")
+})
+
+app.get("/givememoneyt/tee/pot", function(req,res){
     console.log(req.query)
     res.end("no")
 })
@@ -43,119 +89,49 @@ app.post("/postdata", (req,res)=>{
     
 } )
 
+const shoes = ["asdfb","nike","ytrs"]
+const bags = ["sdfghjkl","bag2","bag3"]
+
 //path/route Params
-app.get("/givememoneyt/:bgfc", function(req,res){
+app.get("/givememoneyt/:item/:b", function(req,res){
     console.log(req.params)
-    res.end("no")
+    if(req.params.item=="shoes"){
+        return res.json(shoes)
+    } else{
+        return res.json(bags)
+    }
+    res.end("a was not passed")
 })
 
-// const express = require("express")
-// const fs = require("fs")
-// const path = require("path")
 
-// const app = express()
 
-// app.listen(5000)
 
-// const users = ["sam","ken","sarah"]
 
-// const public = path.join(__dirname,"public")
-// //Setting up exposed/public directory for access from clients
-// app.use(express.static(public))
 
-// app.get("/", (req,res)=>{
-//     console.log(req.url)
-//     const page = fs.readFileSync("./public/index.html",{encoding:"utf-8"})
-//     res.send("index")
-// })
 
-// app.get("/about", (req,res)=>{
-//     console.log(req.url)
-//     const page = fs.readFileSync("./public/about.html",{encoding:"utf-8"})
-//     res.sendFile(path.join(__dirname,"public","about.html"))
-// })
 
-// app.get("/contact",(req,res)=>{
-//     console.log(req.url)
-//     res.send("welcome to the contact page")
-// })
 
-// app.post("/register",(req,res)=>{
-//     const possibleUser = req.query.username
-    
-//     console.log(req.url)
 
-//     if(users.includes(possibleUser)){
-//         return res.end("User already exist")
-//     } else{
-//         users.push(possibleUser)
-//         return res.send("user is been registered")
+
+
+
+
+
+// mongoose.connect(uri,(err)=>{
+//     if(err) {
+//         return console.log(err)
 //     }
-    
+//     console.log("connection established with", mongoose.connection.db.namespace)
 // })
 
-// app.get("/*", (req,res)=>{
-//     res.status(404).send("Resource not found")
-// })
+// try {
+//     const conn = await mongoose.connect(uri)
+//     console.log("connection established with", conn.connection.db.namespace)
+// } catch (error) {
+//     console.log(error)
+// }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.post("/api/register",(req,res)=>{
-//     console.log(req.query)
-//     res.status(200).end()
-// })
-
-// const http = require("http")
-
-// http.createServer(function(req,res){
-
-//     console.log(req.url)
-
-//     if((req.url==="/home" || req.url==="/" || req.url==="/index") && req.method=="get"){
-//         return res.end("welcome to the home page")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }else if(true){
-//         return res.end("404 no resource found for this address")
-//     }v
-    
-// }).listen(5000)
+// mongoose.connect("mongodb://localhost:27017/juneDb")
+// .then(console.log("connection established with", mongoose.connection))
+// .catch((err)=>{console.log(err)})
