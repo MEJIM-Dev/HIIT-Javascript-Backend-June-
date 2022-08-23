@@ -25,8 +25,8 @@ const midman = function(req,res,next){
     next()
 }
 
-const userSchema = new mongoose.Schema({
-    name: {type: String, required:true},
+const userSchema = mongoose.Schema({
+    name: String, 
     password: String
 })
 
@@ -56,12 +56,34 @@ app.post("/saveuser",(req, res)=>{
     })
     
 })
-// app.get("/findusers",(req,res)=>{
-//     User.find((err,data)=>{
-//         if(e)
-//     })
-//     res.send();
-// })
+
+app.get("/allusers", async(req, res)=>{
+    // try {
+    //     const users = await User.find()
+    //      const receipt = await voucher.find({users.name: userSchema.name})
+        // res.send(receipt)
+    // } catch (error) {
+    //     res.send(error)
+    // }
+
+    User.find((err,data)=>{
+            if(err){
+                return res.send(err)
+            }
+             res.send(data)
+    })
+    
+})
+
+app.get("/search/", async(req, res)=>{
+    User.find( {name: req.query.search}, (err,data)=>{
+            if(err){
+                return res.send(err)
+            }
+             res.send(data)
+    })
+    
+})
 
 app.get(["/","/home","/index","/homepage"], midman ,function(req,res){
     console.log("return")
