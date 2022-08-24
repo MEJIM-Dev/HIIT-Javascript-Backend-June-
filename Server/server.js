@@ -30,6 +30,8 @@ const userSchema = mongoose.Schema({
     password: String
 })
 
+// console.log(Date.now()-(24*60*60*1000))
+
 const User = mongoose.model("Users", userSchema)
 
 app.post("/saveuser",(req, res)=>{
@@ -48,7 +50,7 @@ app.post("/saveuser",(req, res)=>{
     )
     .then((data)=>{
         console.log(data)
-        res.send(data)
+        res.send("successful")
     })
     .catch((e)=>{
         console.log(e)
@@ -85,6 +87,16 @@ app.get("/search/", async(req, res)=>{
     
 })
 
+app.get("/search/username", async(req, res)=>{
+    User.findOne( {name: req.query.search}, (err,data)=>{
+            if(err){
+                return res.send(err)
+            }
+             res.send(data)
+    })
+    
+})
+
 app.get(["/","/home","/index","/homepage"], midman ,function(req,res){
     console.log("return")
     res.end("home")
@@ -113,6 +125,15 @@ app.post("/postdata", (req,res)=>{
 
 const shoes = ["asdfb","nike","ytrs"]
 const bags = ["sdfghjkl","bag2","bag3"]
+
+app.post("/app/:id",(req,res)=>{
+    console.log(req.headers)
+    console.log(req.body)
+    if(req.params.id=="auth"){
+        return res.end("successful")
+    }
+    return res.end("unsuccessful")
+})
 
 //path/route Params
 app.get("/givememoneyt/:item/:b", function(req,res){

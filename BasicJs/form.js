@@ -196,31 +196,58 @@ submitBtn.addEventListener("click",(e)=>{
 
     // fetch("")
     // let name = firstname.value.toLowerCase()
-    
-       fetch("http://localhost:5677/saveuser", {
-        method: "POST",
+
+    fetch("http://localhost:5677/saveuser", {
+        method:"POST",
         body: JSON.stringify({
-            "name": firstname.value,
-            "password": password.value,
-            "tel": tel.value,
-            "email": email.value,
-            "age": dropDown.value
+            name: firstname.value,
+            password: password.value,
+            firstname: "dfghujkhgfcv"
         }),
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8'
+        headers:{
+            'Content-type': "application/json"
         }
-    }).then(res=>{
-        if(res.status==200){
-            alert("user created successfully")
-            return window.location.href="/BasicJs/dashboard.html"
-        }
-        else if(res.status==400){
-            alert("Bad request")
-        }
-        // alert("Invalid credentials")
-    }).catch(e=>{
-        console.log("request failed")
     })
+    .then((res)=>{ 
+        console.log(res.status)
+        return res.text()
+    })
+    .then((data)=>{ 
+        console.log(data)
+        if(data=="successful"){
+            alert("worked")
+        } else{
+            alert("failed")
+        }
+    })
+    .catch((err)=>{
+
+    })
+    
+    //    fetch("http://localhost:5677/saveuser", {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //         "name": firstname.value,
+    //         "password": password.value,
+    //         "tel": tel.value,
+    //         "email": email.value,
+    //         "age": dropDown.value
+    //     }),
+    //     // headers: {
+    //     //     'Content-type': 'application/json; charset=UTF-8'
+    //     // }
+    // }).then(res=>{
+    //     if(res.status==200){
+    //         alert("user created successfully")
+    //         return window.location.href="/BasicJs/dashboard.html"
+    //     }
+    //     else if(res.status==400){
+    //         alert("Bad request")
+    //     }
+    //     // alert("Invalid credentials")
+    // }).catch(e=>{
+    //     console.log("request failed")
+    // })
 
     //submit statement here
     //names to lowercase
