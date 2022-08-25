@@ -30,8 +30,6 @@ const userSchema = mongoose.Schema({
     password: String
 })
 
-// console.log(Date.now()-(24*60*60*1000))
-
 const User = mongoose.model("Users", userSchema)
 
 app.post("/saveuser",(req, res)=>{
