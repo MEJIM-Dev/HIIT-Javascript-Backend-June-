@@ -26,13 +26,35 @@ const midman = function(req,res,next){
 }
 
 const userSchema = mongoose.Schema({
-    name: String, 
-    password: String
+    name: String,
+    email: {type:String, required:true, unique:true},
+    password:{type:String, required:true},
+    verified: {type:Boolean, default:true}
 })
 
 const User = mongoose.model("Users", userSchema)
 
-app.post("/saveuser",(req, res)=>{
+app.put("/user", (req, res)=>{
+    User.findOne({email: req.body.email}, (err, data)=>{
+        if(err){
+            return res.send("Can't connect to the db")
+        }
+        const {name, email, password} = req.body
+        console.log(data)
+        data.name = name
+        data.email = email
+        data.password = password
+
+        data.save((err)=>{
+            if(err) return res.send(err)
+            res.send("User updated")
+        })
+
+
+    })
+})
+
+app.post("/user",(req, res)=>{
     console.log(req.body)
     // const dbuser = new User({
     //             name: req.body.name,
@@ -43,12 +65,16 @@ app.post("/saveuser",(req, res)=>{
     User.create(
         {
             name: req.body.name,
-            password: req.body.password
+            password: req.body.password,
+            email: req.body.email,
         }
     )
     .then((data)=>{
         console.log(data)
-        res.send("successful")
+        // const {name,email} = data
+        const name = data.name
+        const email = data.email
+        res.send({name,email})
     })
     .catch((e)=>{
         console.log(e)
@@ -57,7 +83,7 @@ app.post("/saveuser",(req, res)=>{
     
 })
 
-app.get("/allusers", async(req, res)=>{
+app.get("/users", async(req, res)=>{
     // try {
     //     const users = await User.find()
     //      const receipt = await voucher.find({users.name: userSchema.name})
