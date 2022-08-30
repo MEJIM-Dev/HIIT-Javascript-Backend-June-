@@ -34,6 +34,9 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model("Users", userSchema)
 
+app.post("/login",(res,req)=>{
+})
+
 app.put("/user", (req, res)=>{
     User.findOne({email: req.body.email}, (err, data)=>{
         if(err){
@@ -51,6 +54,21 @@ app.put("/user", (req, res)=>{
         })
 
 
+    })
+})
+
+app.delete("/deleteaccount", (req,res)=>{
+    const em = req.body.email
+    
+    User.findOne({email:em},(err,data)=>{
+        if(err) return res.send(err)
+        if(data==null){
+            return res.send("user doesn't exist")
+        }
+        data.remove((err,data)=>{
+                if(err) return res.send(err)
+                res.send(`${data.email} : "deleted successfully"`)
+            })
     })
 })
 
@@ -182,23 +200,3 @@ app.get("/givememoneyt/:item/:b", function(req,res){
 
 
 
-
-
-// mongoose.connect(uri,(err)=>{
-//     if(err) {
-//         return console.log(err)
-//     }
-//     console.log("connection established with", mongoose.connection.db.namespace)
-// })
-
-// try {
-//     const conn = await mongoose.connect(uri)
-//     console.log("connection established with", conn.connection.db.namespace)
-// } catch (error) {
-//     console.log(error)
-// }
-
-
-// mongoose.connect("mongodb://localhost:27017/juneDb")
-// .then(console.log("connection established with", mongoose.connection))
-// .catch((err)=>{console.log(err)})
