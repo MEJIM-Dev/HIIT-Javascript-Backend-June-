@@ -52,8 +52,6 @@ app.put("/user", (req, res)=>{
             if(err) return res.send(err)
             res.send("User updated")
         })
-
-
     })
 })
 
@@ -73,13 +71,6 @@ app.delete("/deleteaccount", (req,res)=>{
 })
 
 app.post("/user",(req, res)=>{
-    console.log(req.body)
-    // const dbuser = new User({
-    //             name: req.body.name,
-    //             password: req.body.password
-    //         })
-
-    // dbuser.save()
     User.create(
         {
             name: req.body.name,
@@ -89,7 +80,6 @@ app.post("/user",(req, res)=>{
     )
     .then((data)=>{
         console.log(data)
-        // const {name,email} = data
         const name = data.name
         const email = data.email
         res.send({name,email})
@@ -102,21 +92,12 @@ app.post("/user",(req, res)=>{
 })
 
 app.get("/users", async(req, res)=>{
-    // try {
-    //     const users = await User.find()
-    //      const receipt = await voucher.find({users.name: userSchema.name})
-        // res.send(receipt)
-    // } catch (error) {
-    //     res.send(error)
-    // }
-
     User.find((err,data)=>{
             if(err){
                 return res.send(err)
             }
              res.send(data)
-    })
-    
+    })  
 })
 
 app.get("/search/", async(req, res)=>{
@@ -165,9 +146,6 @@ app.post("/postdata", (req,res)=>{
     
 } )
 
-const shoes = ["asdfb","nike","ytrs"]
-const bags = ["sdfghjkl","bag2","bag3"]
-
 app.post("/app/:id",(req,res)=>{
     console.log(req.headers)
     console.log(req.body)
@@ -177,6 +155,9 @@ app.post("/app/:id",(req,res)=>{
     return res.end("unsuccessful")
 })
 
+const shoes = ["asdfb","nike","ytrs"]
+const bags = ["sdfghjkl","bag2","bag3"]
+
 //path/route Params
 app.get("/givememoneyt/:item/:b", function(req,res){
     console.log(req.params)
@@ -185,7 +166,6 @@ app.get("/givememoneyt/:item/:b", function(req,res){
     } else{
         return res.json(bags)
     }
-    res.end("a was not passed")
 })
 
 

@@ -197,12 +197,12 @@ submitBtn.addEventListener("click",(e)=>{
     // fetch("")
     // let name = firstname.value.toLowerCase()
 
-    fetch("http://localhost:5677/saveuser", {
+    fetch("http://localhost:5677/user", {
         method:"POST",
         body: JSON.stringify({
             name: firstname.value,
             password: password.value,
-            firstname: "dfghujkhgfcv"
+            email: email.value
         }),
         headers:{
             'Content-type': "application/json"
@@ -215,9 +215,9 @@ submitBtn.addEventListener("click",(e)=>{
     .then((data)=>{ 
         console.log(data)
         if(data=="successful"){
-            alert("worked")
+            alert("ok")
         } else{
-            alert("failed")
+            alert("ok")
         }
     })
     .catch((err)=>{
