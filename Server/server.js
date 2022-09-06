@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const cors = require("cors")
+// const cors = require("cors")
+const cookieParser = require("cookie-parser")
 
 const app = express()
 
@@ -8,7 +9,7 @@ const uri = "mongodb://localhost:27017/JuneDb"
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-app.use(cors())
+// app.use(cors())
 mongoose.connect(uri,(err=>{
     if(err) {
         return console.log(err)
@@ -22,19 +23,21 @@ app.listen(5677)
 //Middleware
 const midman = function(req,res,next){
     console.log("midman");
+    
     next()
 }
 
 const userSchema = mongoose.Schema({
     name: String,
-    email: {type:String, required:true, unique:true},
-    password:{type:String, required:true},
-    verified: {type:Boolean, default:true}
+    email: { type: String, required: true, unique: true},
+    password: { type: String, required: true},
+    verified: { type:Boolean, default: true}
 })
 
 const User = mongoose.model("Users", userSchema)
 
-app.post("/login",(res,req)=>{
+app.post("/login",(req,res)=>{
+    res.send()
 })
 
 app.put("/user", (req, res)=>{
@@ -57,17 +60,30 @@ app.put("/user", (req, res)=>{
 
 app.delete("/deleteaccount", (req,res)=>{
     const em = req.body.email
-    
     User.findOne({email:em},(err,data)=>{
-        if(err) return res.send(err)
-        if(data==null){
-            return res.send("user doesn't exist")
+        if(err){
+            return res.send(err)
         }
-        data.remove((err,data)=>{
-                if(err) return res.send(err)
-                res.send(`${data.email} : "deleted successfully"`)
-            })
+        if(data==null){
+            return res.send("user does not exist")
+        }
+        data.remove((err,result)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.send(em+ "deleted successfully")
+        })
     })
+    // User.findOne({email:em},(err,data)=>{
+    //     if(err) return res.send(err)
+    //     if(data==null){
+    //         return res.send("user doesn't exist")
+    //     }
+    //     data.remove((err,data)=>{
+    //         if(err) return res.send(err)
+    //         res.send(`${data.email} : "deleted successfully"`)
+    //     })
+    // })
 })
 
 app.post("/user",(req, res)=>{
