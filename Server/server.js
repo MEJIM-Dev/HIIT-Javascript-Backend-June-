@@ -2,6 +2,8 @@ const express = require("express")
 const mongoose = require("mongoose")
 // const cors = require("cors")
 const cookieParser = require("cookie-parser")
+const fs = require("fs")
+const path = require("path")
 
 const app = express()
 
@@ -9,6 +11,8 @@ const uri = "mongodb://localhost:27017/JuneDb"
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cookieParser())
+app.use(express.static("public"))
 // app.use(cors())
 mongoose.connect(uri,(err=>{
     if(err) {
@@ -36,8 +40,53 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model("Users", userSchema)
 
+app.get("/", (req, res)=>{
+    console.log( req.headers)
+    res.send("res")
+})
+
 app.post("/login",(req,res)=>{
-    res.send()
+    User.findOne({email: req.body.email}, (err,data)=>{
+        if(err){
+            return res.status(404).send(err)
+        }
+
+        if(data==null){
+            return res.status(400).send("Incorrect username or password")
+        }
+
+        if(data.password != req.body.password){
+            return res.status(400).send("Incorrect username or password")
+        }
+
+        res.cookie("auth",req.body.email,{
+            maxAge: 1000*60*15,
+            httpOnly:true,
+        })
+        res.cookie("user",req.body,{
+            maxAge: 1000*60*15,
+            httpOnly:true,
+        })
+        res.cookie("something","something",{
+            maxAge: 1000*60*15,
+            httpOnly:true,
+        })
+        let page = fs.readFileSync(path.join(__dirname,"public","dashboard.html"))
+        res.send(page)
+    })
+})
+
+app.get("/dashboard", (req, res)=>{
+    console.log(req.cookies)
+    let page = fs.readFileSync(path.join(__dirname,"public","login.html"))
+    if(req.cookies.auth==null){
+        return res.redirect("/login.html")
+        // return res.status(401).send(page)
+    }
+    page = fs.readFileSync(path.join(__dirname,"public","dashboard.html"))
+    res.redirect("/dashboard.html")
+    // res.send(page)
+    // res.redirect("/dashboard.html")
 })
 
 app.put("/user", (req, res)=>{
