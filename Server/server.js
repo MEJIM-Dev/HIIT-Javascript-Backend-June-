@@ -6,7 +6,7 @@ const fs = require("fs")
 const path = require("path")
 const session = require("express-session")
 const sessionStore = require("connect-mongodb-session")(session)
-
+const bcrypt = require("bcrypt")
 const app = express()
 
 const uri = "mongodb://localhost:27017/JuneDb"
