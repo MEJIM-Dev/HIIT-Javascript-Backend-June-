@@ -1,9 +1,10 @@
 const express = require("express")
 const mongoose = require("mongoose")
 // const cors = require("cors")
-const cookieParser = require("cookie-parser")
+// const cookieParser = require("cookie-parser")
 const fs = require("fs")
 const path = require("path")
+const session = require("express-session")
 
 const app = express()
 
@@ -11,14 +12,23 @@ const uri = "mongodb://localhost:27017/JuneDb"
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-app.use(cookieParser())
+// app.use(cookieParser())
 app.use(express.static("public"))
-// app.use(cors())
+
 mongoose.connect(uri,(err=>{
     if(err) {
         return console.log(err)
     }
     console.log("connected")
+}))
+
+app.use(session({
+    secret: "adb37a37747849fe606372e729d192f2",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly:true,
+    }   
 }))
 
 
@@ -71,6 +81,7 @@ app.post("/login",(req,res)=>{
             maxAge: 1000*60*15,
             httpOnly:true,
         })
+
         let page = fs.readFileSync(path.join(__dirname,"public","dashboard.html"))
         res.send(page)
     })
