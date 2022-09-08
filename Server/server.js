@@ -7,6 +7,7 @@ const path = require("path")
 const session = require("express-session")
 const sessionStore = require("connect-mongodb-session")(session)
 const bcrypt = require("bcrypt")
+
 const app = express()
 
 const uri = "mongodb://localhost:27017/JuneDb"
@@ -85,7 +86,11 @@ app.post("/login",(req,res)=>{
             return res.status(400).send("Incorrect username or password")
         }
 
-        if(data.password != req.body.password){
+        // if(data.password != req.body.password){
+        //     return res.status(400).send("Incorrect username or password")
+        // }
+
+        if(!bcrypt.compareSync(req.body.password,data.password)){
             return res.status(400).send("Incorrect username or password")
         }
 
@@ -173,7 +178,7 @@ app.post("/user",(req, res)=>{
     User.create(
         {
             name: req.body.name,
-            password: req.body.password,
+            password: bcrypt.hashSync(req.body.password, 10),
             email: req.body.email,
         }
     )
