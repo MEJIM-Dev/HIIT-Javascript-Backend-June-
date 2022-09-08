@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const fs = require("fs")
 const path = require("path")
 const session = require("express-session")
+const sessionStore = require("connect-mongodb-session")(session)
 
 const app = express()
 
@@ -22,15 +23,20 @@ mongoose.connect(uri,(err=>{
     console.log("connected")
 }))
 
+const store = new sessionStore({
+    uri: uri,
+    collection: "session"
+})
+
 app.use(session({
     secret: "adb37a37747849fe606372e729d192f2",
     resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly:true,
-    }   
+    },
+    store: store
 }))
-
 
 app.listen(5677)
 
@@ -55,6 +61,20 @@ app.get("/", (req, res)=>{
     res.send("res")
 })
 
+app.get("/login", (req,res)=>{
+    
+    if(req.session.auth) {
+        return res.redirect("/dashboard.html")
+    }
+
+    res.redirect("/login.html")
+})
+
+app.get("/logout",(req, res)=>{
+    req.session.destroy()
+    res.send("successful")
+})
+
 app.post("/login",(req,res)=>{
     User.findOne({email: req.body.email}, (err,data)=>{
         if(err){
@@ -69,18 +89,21 @@ app.post("/login",(req,res)=>{
             return res.status(400).send("Incorrect username or password")
         }
 
-        res.cookie("auth",req.body.email,{
-            maxAge: 1000*60*15,
-            httpOnly:true,
-        })
-        res.cookie("user",req.body,{
-            maxAge: 1000*60*15,
-            httpOnly:true,
-        })
-        res.cookie("something","something",{
-            maxAge: 1000*60*15,
-            httpOnly:true,
-        })
+        req.session.auth=true
+        req.session.user = data
+
+        // res.cookie("auth",req.body.email,{
+        //     maxAge: 1000*60*15,
+        //     httpOnly:true,
+        // })
+        // res.cookie("user",req.body,{
+        //     maxAge: 1000*60*15,
+        //     httpOnly:true,
+        // })
+        // res.cookie("something","something",{
+        //     maxAge: 1000*60*15,
+        //     httpOnly:true,
+        // })
 
         let page = fs.readFileSync(path.join(__dirname,"public","dashboard.html"))
         res.send(page)
@@ -88,9 +111,9 @@ app.post("/login",(req,res)=>{
 })
 
 app.get("/dashboard", (req, res)=>{
-    console.log(req.cookies)
+    console.log(req.session)
     let page = fs.readFileSync(path.join(__dirname,"public","login.html"))
-    if(req.cookies.auth==null){
+    if(req.session.auth!=true){
         return res.redirect("/login.html")
         // return res.status(401).send(page)
     }
