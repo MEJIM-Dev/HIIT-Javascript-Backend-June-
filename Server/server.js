@@ -6,7 +6,8 @@ const fs = require("fs")
 const path = require("path")
 const session = require("express-session")
 const sessionStore = require("connect-mongodb-session")(session)
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt")  
+const nodemailer = require("nodemailer")
 
 const app = express()
 
@@ -27,6 +28,17 @@ mongoose.connect(uri,(err=>{
 const store = new sessionStore({
     uri: uri,
     collection: "session"
+})
+
+const mail = nodemailer.createTransport({
+    // host: "smtp.gmail.com",//"smtp.mailtrap.io",
+    // port: "587",
+    service:"gmail",
+    // secure: false,
+    auth: {
+        user: "youremailaddress@gmail.com",
+        pass:"your password"
+    }
 })
 
 app.use(session({
@@ -60,6 +72,29 @@ const User = mongoose.model("Users", userSchema)
 app.get("/", (req, res)=>{
     console.log( req.headers)
     res.send("res")
+})
+
+app.get("/sendmail",(req, res)=>{
+
+    mail.sendMail({
+        from: "something@email.com",
+        to:"taskmastarh@gmail.com",
+        subject:"Welcome message",
+        text: "Hello User, this is our test app confirming you are still interested in the previous offer.",
+        html: `<a href="http://localhost:5677/verify">Verify</a>`
+    }, (err, info)=>{
+        if(err) {
+            console.log(err)
+            return res.send("Failed to send email")
+        }
+        if(!info.accepted){
+            console.log(info)
+            return res.status(502).send("failed to send mail")
+        }
+
+        res.send("mail sent successfully")
+    })
+
 })
 
 app.get("/login", (req,res)=>{
