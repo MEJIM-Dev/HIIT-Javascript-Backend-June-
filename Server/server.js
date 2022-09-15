@@ -1,6 +1,5 @@
 const express = require("express")
 const mongoose = require("mongoose")
-// const cors = require("cors")
 // const cookieParser = require("cookie-parser")
 const fs = require("fs")
 const path = require("path")
@@ -8,8 +7,11 @@ const session = require("express-session")
 const sessionStore = require("connect-mongodb-session")(session)
 const bcrypt = require("bcrypt")  
 const nodemailer = require("nodemailer")
+const crypto = require("crypto")
+require("dotenv").config({})
 
 const app = express()
+const {PORT, GMAIL_ACC, GMAIL_PASS} = process.env
 
 const uri = "mongodb://localhost:27017/JuneDb"
 
@@ -36,52 +38,18 @@ const mail = nodemailer.createTransport({
     service:"gmail",
     // secure: false,
     auth: {
-        user: "youremailaddress@gmail.com",
-        pass:"your password"
+        user: GMAIL_ACC,
+        pass: GMAIL_PASS
     }
 })
 
-app.use(session({
-    secret: "adb37a37747849fe606372e729d192f2",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly:true,
-    },
-    store: store
-}))
-
-app.listen(5677)
-
-//Middleware
-const midman = function(req,res,next){
-    console.log("midman");
-    
-    next()
-}
-
-const userSchema = mongoose.Schema({
-    name: String,
-    email: { type: String, required: true, unique: true},
-    password: { type: String, required: true},
-    verified: { type:Boolean, default: true}
-})
-
-const User = mongoose.model("Users", userSchema)
-
-app.get("/", (req, res)=>{
-    console.log( req.headers)
-    res.send("res")
-})
-
-app.get("/sendmail",(req, res)=>{
-
+const sendMail = (res,to,subject,html)=>{
     mail.sendMail({
         from: "something@email.com",
-        to:"taskmastarh@gmail.com",
-        subject:"Welcome message",
-        text: "Hello User, this is our test app confirming you are still interested in the previous offer.",
-        html: `<a href="http://localhost:5677/verify">Verify</a>`
+        to:to,
+        subject:subject,
+        // text: text,
+        html: html
     }, (err, info)=>{
         if(err) {
             console.log(err)
@@ -94,6 +62,53 @@ app.get("/sendmail",(req, res)=>{
 
         res.send("mail sent successfully")
     })
+}
+
+app.use(session({
+    secret: "adb37a37747849fe606372e729d192f2",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly:true,
+    },
+    store: store
+}))
+
+app.listen(PORT, (err)=>{
+    console.log(`app started on port: ${PORT}`)
+})
+
+//Middleware
+const midman = function(req,res,next){
+    console.log("midman");
+    
+    next()
+}
+
+const userSchema = mongoose.Schema({
+    name: String,
+    email: { type: String, required: true, unique: true},
+    password: { type: String, required: true},
+    verified: { type:Boolean, default: false}
+})
+
+const tokenSchema = mongoose.Schema({
+    email: {type:String, required:true},
+    token: {type:String, required:true}
+})
+
+const Token = mongoose.model("verifications", tokenSchema)
+
+const User = mongoose.model("Users", userSchema)
+
+app.get("/", (req, res)=>{
+    console.log( req.headers)
+    res.send("res")
+})
+
+app.get("/sendmail",(req, res)=>{
+
+    sendMail(res)
 
 })
 
@@ -209,6 +224,37 @@ app.delete("/deleteaccount", (req,res)=>{
     // })
 })
 
+app.get("/otp", (req, res)=>{
+    res.send("ok")
+})
+
+app.get("/verify", async(req, res)=>{
+
+    Token.findOne({token: req.query.token}, (err,data)=>{
+        if(err){
+            return res.status(502).send("DB is down")
+        }
+        if(data==null){
+            return res.status(400).send("Invalid or expired link")
+        }
+        User.findOne({email:data.email}, (err, data)=>{
+            if(err){
+                return res.status(502).send("DB is down")
+            }
+            data.verified=true
+            data.save((err)=>{
+                if(err){
+                    return res.status(502).send("DB is down")
+                }
+                res.send("User now verified")
+            })
+            
+        })
+        
+    })
+    
+})
+
 app.post("/user",(req, res)=>{
     User.create(
         {
@@ -221,7 +267,34 @@ app.post("/user",(req, res)=>{
         console.log(data)
         const name = data.name
         const email = data.email
-        res.send({name,email})
+        const sub = "Complete your registeration"
+        const token = Math.floor(Math.random()*10000) //crypto.randomBytes(32).toString("hex")
+
+        Token.create({
+            email: email,
+            token: token
+        })
+
+        // const html = `  <div style="display:flex; flex-direction:"column">
+        //                     <p>Hello ${name},</p>
+        //                     <p>Please click on the link below to verify your account.</p>
+                            
+        //                     <a  href="http://localhost:5677/verify?token=${token}">Click me</a>
+        //                     <p>Best regards,</p>
+        //                     <p>Admin</p>
+        //                 </div>
+                        
+        //             `
+
+        const html = `  <div style="display:flex; flex-direction:"column">
+                            <p>Hello ${name},</p>
+                            <p>Your one time password is: ${token}.</p>
+                            <p>Best regards,</p>
+                            <p>Admin</p>
+                        </div>
+                        
+                    `
+        sendMail(res,email,sub,html)
     })
     .catch((e)=>{
         console.log(e)
