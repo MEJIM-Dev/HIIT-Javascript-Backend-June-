@@ -1,3 +1,44 @@
+const content = document.getElementById("content")
+
+fetch("http://localhost:8001/api/rooms",{
+    method:"GET",
+    headers: {
+        'Content-type':"application/json"
+    }
+})
+.then((data)=>{
+
+    if(data.status==200){
+        data.json()
+        .then((json)=>{
+            console.log(json)
+            json.forEach((item) => {
+                content.innerHTML+=`<div class="card">
+                <p>Room no: ${item.number}</p>
+                <p>Price: ${item.price}</p>
+                <p>Available: ${item.available}</p>
+                <p>information: ${item.info} </p>
+                <p>type: ${item.type}</p>
+                <button id=${item.number}  class="book">Book</button>
+                </div>`
+            });
+            document.querySelectorAll(".book").forEach(e=>{
+                e.addEventListener("click", (e)=>{bookRoom(e)})
+            })
+        })
+        return
+    }
+    alert("something went wrong")
+})
+.catch((e)=>{
+    alert("server down")
+})
+
+function bookRoom(event){
+    console.log(event.target.id)
+    window.location.href=`/BasicJs/room.html?room=${event.target.id}`
+}
+
 // function returnPosSum(aray,total){
 //     total=4
 //     if(){//two index = total){
@@ -37,17 +78,15 @@
 //         console.log("inner loop")
 //     }
 // }
-
-console.log("done")
  
 // console.log(breakPoint)
 // }
 
 // ac()
 
-function abc(){
+// function abc(){
 
-}
+// }
 // class Students {
 
 //     constructor(name,contact,course) {

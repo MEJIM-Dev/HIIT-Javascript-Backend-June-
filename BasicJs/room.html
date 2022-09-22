@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room</title>
+    <link rel="stylesheet" href="./styles.css"></link>
+</head>
+<body>
+    <div class="card">
+        <p>Room no: <p id="no">?</p> </p>
+        <p>Price: <p id="price">?</p> </p>
+        <p>Available: <p id="ava">?</p> </p>
+        <p>information: <p id="info">?</p> </p>
+        <p>type: <p id="type">?</p> </p>
+        <button class="book">Book</button>
+    </div>
+    <form action="http://localhost:8001/api/book" method="post" class="form">
+        <label for="email">
+            Email:
+        </label>
+        <input id="email" name="email" type="email" placeholder="Email"/>
+        <label for="mobile">
+            Mobile:
+        </label>
+        <input id="mobile" name="mobile" type="number" placeholder="Mobile No."/>
+        <label for="guest">
+            Guest No:
+        </label>
+        <input id="guest" name="guest" type="number" placeholder="Amount of People"/>
+        <label for="checkin">
+            Checkin:
+        </label>
+        <input id="checkin" name="checkin" type="date"/>
+        <label for="checkout">
+            Checkout:
+        </label>
+        <input id="checkout" name="checkout" type="date"/>
+        <button type="submit" id="sub" class="sub">Submit</button>
+    </form>
+    
+    <script src="room.js"></script>
+</body>
+</html>
